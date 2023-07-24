@@ -42,10 +42,21 @@ client.on("interactionCreate", async interaction => {
 				if (interaction.channel) {
 					let messages = [];
 					let message = await interaction.channel.messages.fetch({ limit: 1, after: "0" }).then(messagePage => (messagePage.size === 1 ? messagePage.at(0) : null));
-					messages.push(message);
+					if (message.author.bot) {
+						if (INCLUDE_BOTS) messages.push(message);
+					} else {
+						messages.push(message);
+					}
 					while (message && messages.length < 50) {
 						await interaction.channel.messages.fetch({ limit: 100, after: message.id }).then(messagePage => {
-							messagePage.forEach(msg => messages.push(msg));
+							messagePage.forEach(msg => {
+								if (message.author.bot) {
+									if (INCLUDE_BOTS) messages.push(msg);
+								} else {
+									messages.push(msg);
+								}
+								messages.push(msg);
+							});
 							// Update our message pointer to be the last message on the page of messages
 							message = 0 < messagePage.size ? messagePage.at(-1) : null;
 						});
