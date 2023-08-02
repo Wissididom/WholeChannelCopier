@@ -32,9 +32,9 @@ client.on("interactionCreate", async (interaction) => {
     switch (interaction.commandName) {
       case "clone":
         await interaction.editReply({
-          content: `Channel Content is now getting sent to your provided token...`,
+          content: `Channel Content is now getting sent to your provided webhook url...`,
         });
-        console.log(`[WholeChannelCloner] /clone token:redacted executed!`);
+        console.log(`[WholeChannelCloner] /clone webhook_url:redacted executed!`);
         if (interaction.channel) {
           let messages = [];
           let message = await interaction.channel.messages
